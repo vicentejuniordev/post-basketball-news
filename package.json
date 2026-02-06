@@ -4,10 +4,11 @@
   "description": "Um clone do TabNews com o objetivo de entender, revisar e me aprofundar em conceitos de programação.",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run services:up && npm run wait-for-postgres && npm run migrate:up && next dev",
+    "dev": "npm run services:up && npm run services:wait:database && npm run migrate:up && next dev",
     "services:up": "docker compose -f ./infra/compose.yaml up -d",
     "services:stop": "docker compose -f ./infra/compose.yaml stop",
     "services:down": "docker compose -f ./infra/compose.yaml down",
+    "services:wait:database": "node infra/scripts/wait-for-postgres",
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
     "lint:eslint:check": "next lint --dir .",
@@ -15,7 +16,6 @@
     "test:watch": "jest --watchAll --runInBand",
     "migrate:create": "node-pg-migrate -m infra/migrations create",
     "migrate:up": "node-pg-migrate -m infra/migrations --envPath .env.development up",
-    "wait-for-postgres": "node infra/scripts/wait-for-postgres",
     "commit": "cz",
     "prepare": "husky"
   },
