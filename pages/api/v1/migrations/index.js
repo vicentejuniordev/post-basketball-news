@@ -14,6 +14,15 @@ async function migrations(request, response) {
   try {
     dbClient = await database.getNewClient();
 
+    await dbClient.query(`
+    CREATE SCHEMA IF NOT EXISTS public;
+    CREATE TABLE IF NOT EXISTS public.pgmigrations (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    run_on TIMESTAMP NOT NULL
+  );
+`);
+
     const migrationsOptions = {
       dbClient: dbClient,
       dryRun: true,
