@@ -26,7 +26,7 @@ async function query(queryObject) {
     console.error(error);
     throw error;
   } finally {
-    await client.end();
+    await client?.end(); // ? -> Operador que verifica se o clinet existe antes de tentar finalizar a conexão, evitando erros caso a conexão falhe
   }
 }
 
